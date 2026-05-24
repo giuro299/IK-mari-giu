@@ -9,3 +9,15 @@ def calcola_cinematica_inversa(input_data, current_pose):
     current_pose: geometry_msgs/Pose (la posizione attuale del robot)
     """
 
+%%
+Incoming data type
+numper of elements: 1-2
+1. string:command
+2. dictionary: command_info
+
+Data = {Command ='Move',
+	Command_info{
+	plane:xy,
+	x:12
+	y:1}
+}%%
