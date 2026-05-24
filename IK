@@ -28,3 +28,58 @@ Data = {Command ='Move',
 
     comando = input_data[0]
     info = input_data[1]
+
+
+import numpy as np
+
+def parse_command(Data):
+    cmd = Data["Command"]
+    info = Data["Command_info"]
+
+    if cmd != "Move":
+        raise ValueError("Unsupported command")
+
+    x = info["x"]
+    y = info["y"]
+
+    # ASSUMIAMO piano XY a z costante
+    z = 0.3   # altezza lavoro (modifica tu)
+
+    return np.array([x, y, z])
+
+def ik_puma_position_only(p):
+    x, y, z = p
+
+    # parametri robot (esempio PUMA-like)
+    d1 = 0.3
+    a2 = 0.5
+    a3 = 0.2
+    d6 = 0.1
+
+    # --------------------
+    # J1
+    theta1 = np.arctan2(y, x)
+
+    # centro polso proiettato
+    r = np.sqrt(x**2 + y**2)
+    s = z - d1
+
+    # --------------------
+    # legge coseni
+    D = (r**2 + s**2 - a2**2 - a3**2) / (2*a2*a3)
+
+    # protezione numerica
+    D = np.clip(D, -1, 1)
+
+    theta3 = np.arctan2(np.sqrt(1 - D**2), D)
+
+    theta2 = np.arctan2(s, r) - np.arctan2(a3*np.sin(theta3),
+                                            a2 + a3*np.cos(theta3))
+
+    # --------------------
+    # soluzione semplice orientamento fisso
+    theta4 = 0
+    theta5 = np.pi
+    theta6 = 0
+
+    return np.array([theta1, theta2, theta3, theta4, theta5, theta6])
