@@ -9,7 +9,7 @@ def calcola_cinematica_inversa(input_data, current_pose):
     current_pose: geometry_msgs/Pose (la posizione attuale del robot)
     """
 
-%%
+#
 Incoming data type
 numper of elements: 1-2
 1. string:command
@@ -20,4 +20,11 @@ Data = {Command ='Move',
 	plane:xy,
 	x:12
 	y:1}
-}%%
+}#
+# 1. Estrazione dati dalla lista
+    if len(input_data) != 2:
+        rospy.logerr("Errore: La lista deve contenere 2 elementi.")
+        return None
+
+    comando = input_data[0]
+    info = input_data[1]
