@@ -1,2 +1,11 @@
-print('ciao')
-print('hello')
+import rospy
+from geometry_msgs.msg import PoseStamped, Pose
+from moveit_msgs.srv import GetPositionIK, GetPositionIKRequest
+
+def calcola_cinematica_inversa(input_data, current_pose):
+    """
+    Analizza la lista in ingresso e calcola l'IK.
+    input_data: list = ["Move", {"plane": "xy", "x": 12, "y": 1}]
+    current_pose: geometry_msgs/Pose (la posizione attuale del robot)
+    """
+
